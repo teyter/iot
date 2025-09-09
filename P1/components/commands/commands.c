@@ -168,9 +168,9 @@ void mac_to_string(const uint8_t* mac, char* out) {
 int process_cmd_status(const Command* in_cmd, char* out_msg) {
 	esp_chip_info_t info;
 	esp_chip_info(&info);
-	printf("SYSTEM UPTIME: %lld S\n", esp_timer_get_time() / 1000000);
-	printf("AVAILABLE CORES: %d\n", info.cores);
-	printf("AVAILABLE HEAP MEMORY: %lu\n", esp_get_free_heap_size());
+	char s[128];
+	snprintf(s, sizeof s, "SYSTEM UPTIME: %lld S\nAVAILABLE CORES: %d\nAVAILABLE HEAP MEMORY: %lu\n", esp_timer_get_time() / 1000000, info.cores, esp_get_free_heap_size());
+	strcpy(out_msg, s);
 	return 0;
 }
 
@@ -265,8 +265,14 @@ int bconvert(char *s)
 }
 
 int process_cmd_dec(const Command* in_cmd, char* out_msg) {
-    if (in_cmd->argument[0] != '0') return 2;
-	int out = bconvert(in_cmd->argument);
-	printf("%d\n", out);
+	// error if arg > 2^(16-1)
+	char arg[64];
+	strcpy(arg, in_cmd->argument);
+    if (arg[0] != '0') return 2;
+	int dec = bconvert(arg); // get warning if bconvert(in_cmd->argument)
+
+	char s[64];
+	snprintf(s, sizeof s, "%d\n", dec);
+	strcpy(out_msg, s);
 	return 0;
 }
