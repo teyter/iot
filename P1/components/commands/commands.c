@@ -175,26 +175,6 @@ int process_cmd_status(const Command* in_cmd, char* out_msg) {
 }
 
 int process_cmd_dec(const Command* in_cmd, char* out_msg) {
-	// if arguement was numeric literal like 0b1001
-	// i could just printf("%d\n", in_cmd->arguement);
-	// no problem, but since arguement is %s then i will
-	// have to manually convert and i have no idea how to
-	// do that without using malloc
-    if (in_cmd->argument[1] == 'b')
-    {
-        printf("%s\n", "BINARY");
-    }
-    else if (in_cmd->argument[1] == 'x')
-    {
-        printf("%s\n", "HEX");
-    }
-    else if (in_cmd->argument[0] == '0')
-    {
-        printf("%s\n", "OCTAL");
-    }
-    else
-    {
-        return 2;
-    }
+    if (in_cmd->argument[0] != '0') return 2;
 	return 0;
 }
