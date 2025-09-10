@@ -12,81 +12,73 @@ int power(int base, int exp)
     return base;
 }
 
-int bconvert(char *s)
-{
+int bconvert(char * s) {
     int base;
     int e;
     int len = strlen(s);
     int j = 2;
-    if (s[1] == 'b') {base = 2; e = len-3;} else if (s[1] == 'x') {base = 16;e=len-3;} else {base = 8;e=len-2;j=1;}
+    if (s[1] == 'b') {
+        base = 2;
+        e = len - 3;
+    } else if (s[1] == 'x') {
+        base = 16;
+        e = len - 3;
+    } else {
+        base = 8;
+        e = len - 2;
+        j = 1;
+    }
     int sum = 0;
-    for (int i = j; i < len; i++)
-    {
-        if (s[i] == '0')
-        {
+    for (int i = j; i < len; i++) {
+        if (s[i] == '0') {
             sum += 0 * power(base, e);
-        } 
-        else if (s[i] == '1')
-        {
+        } else if (s[i] == '1') {
             sum += 1 * power(base, e);
-        }
-        else if (s[i] == '2')
-        {
+        } else if (s[i] == '2') {
+			if (base == 2) return -1;
             sum += 2 * power(base, e);
-        }
-        else if (s[i] == '3')
-        {
+        } else if (s[i] == '3') {
+			if (base == 2) return -1;
             sum += 3 * power(base, e);
-        }
-        else if (s[i] == '4')
-        {
+        } else if (s[i] == '4') {
+			if (base == 2) return -1;
             sum += 4 * power(base, e);
-        }
-        else if (s[i] == '5')
-        {
+        } else if (s[i] == '5') {
+			if (base == 2) return -1;
             sum += 5 * power(base, e);
-        }
-        else if (s[i] == '6')
-        {
+        } else if (s[i] == '6') {
+			if (base == 2) return -1;
             sum += 6 * power(base, e);
-        }
-        else if (s[i] == '7')
-        {
+        } else if (s[i] == '7') {
+			if (base == 2) return -1;
             sum += 7 * power(base, e);
-        }
-        else if (s[i] == '8')
-        {
+        } else if (s[i] == '8') {
+			if (base == 2 || base == 8) return -1;
             sum += 8 * power(base, e);
-        }
-        else if (s[i] == '9')
-        {
+        } else if (s[i] == '9') {
+			if (base == 2 || base == 8) return -1;
             sum += 9 * power(base, e);
-        }
-        else if (s[i] == 'A')
-        {
+        } else if (s[i] == 'A' || s[i] == 'a') {
+			if (base == 2 || base == 8) return -1;
             sum += 10 * power(base, e);
-        }
-        else if (s[i] == 'B')
-        {
+        } else if (s[i] == 'B' || s[i] == 'b') {
+			if (base == 2 || base == 8) return -1;
             sum += 11 * power(base, e);
-        }
-        else if (s[i] == 'C')
-        {
+        } else if (s[i] == 'C' || s[i] == 'c') {
+			if (base == 2 || base == 8) return -1;
             sum += 12 * power(base, e);
-        }
-        else if (s[i] == 'D')
-        {
+        } else if (s[i] == 'D' || s[i] == 'd') {
+			if (base == 2 || base == 8) return -1;
             sum += 13 * power(base, e);
-        }
-        else if (s[i] == 'E')
-        {
+        } else if (s[i] == 'E' || s[i] == 'e') {
+			if (base == 2 || base == 8) return -1;
             sum += 14 * power(base, e);
-        }
-        else if (s[i] == 'F')
-        {
+        } else if (s[i] == 'F' || s[i] == 'f') {
+			if (base == 2 || base == 8) return -1;
             sum += 15 * power(base, e);
-        }
+        } else return -1;
         e--;
+        if (sum > 65535) return -1;
     }
     return sum;
 }
