@@ -12,7 +12,7 @@ int power(int base, int exp)
     return base;
 }
 
-int bconvert(char * s) {
+int bconvert(char *s) {
     int base;
     int e;
     int len = strlen(s);
@@ -23,11 +23,15 @@ int bconvert(char * s) {
     } else if (s[1] == 'x') {
         base = 16;
         e = len - 3;
-    } else {
+    } else if (s[0] == '0') {
         base = 8;
         e = len - 2;
         j = 1;
-    }
+    } else {
+        base = 10;
+        e = len - 1;
+        j = 0;
+	}
     int sum = 0;
     for (int i = j; i < len; i++) {
         if (s[i] == '0') {
@@ -59,22 +63,22 @@ int bconvert(char * s) {
 			if (base == 2 || base == 8) return -1;
             sum += 9 * power(base, e);
         } else if (s[i] == 'A' || s[i] == 'a') {
-			if (base == 2 || base == 8) return -1;
+			if (base == 2 || base == 8 || base == 10) return -1;
             sum += 10 * power(base, e);
         } else if (s[i] == 'B' || s[i] == 'b') {
-			if (base == 2 || base == 8) return -1;
+			if (base == 2 || base == 8 || base == 10) return -1;
             sum += 11 * power(base, e);
         } else if (s[i] == 'C' || s[i] == 'c') {
-			if (base == 2 || base == 8) return -1;
+			if (base == 2 || base == 8 || base == 10) return -1;
             sum += 12 * power(base, e);
         } else if (s[i] == 'D' || s[i] == 'd') {
-			if (base == 2 || base == 8) return -1;
+			if (base == 2 || base == 8 || base == 10) return -1;
             sum += 13 * power(base, e);
         } else if (s[i] == 'E' || s[i] == 'e') {
-			if (base == 2 || base == 8) return -1;
+			if (base == 2 || base == 8 || base == 10) return -1;
             sum += 14 * power(base, e);
         } else if (s[i] == 'F' || s[i] == 'f') {
-			if (base == 2 || base == 8) return -1;
+			if (base == 2 || base == 8 || base == 10) return -1;
             sum += 15 * power(base, e);
         } else return -1;
         e--;
@@ -89,7 +93,8 @@ int main()
     s = "100";
     s = "0xFF";
     s = "0b1111";
-    s = "0765";
-    bconvert(s);
+    s = "0777";
+    s = "128";
+    printf("%d\n", bconvert(s) );
     return 0;
 }
