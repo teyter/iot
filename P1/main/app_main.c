@@ -19,7 +19,6 @@ const char* ERROR_ARGUMENT = "Argument error";
 
 void app_main(void)
 {
-	printf("SYNC // FIRMWARE READY\n");
 	char msg_in[MSG_BUFFER_LENGTH];
 	char msg_out[MSG_BUFFER_LENGTH];
 
