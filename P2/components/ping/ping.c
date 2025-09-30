@@ -28,6 +28,7 @@ typedef struct __attribute__((__packed__))
 void ping_command(char* args)
 {
 	// ...?
+	printf("ping\n");
 }
 
 void ping(uint8_t node) {
