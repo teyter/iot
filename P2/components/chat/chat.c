@@ -30,7 +30,18 @@ void shout_command(char* args)
 
 void tell_command(char* args)
 {
-	// ...?
+	if (!args)
+	{
+		serial_write_line("???\n");
+		return;
+	}
+	// dest ?
+	if (dest == 0)
+	{
+		serial_write_line("???\n");
+		return;
+	}
+	chat_tell(args, dest);
 }
 
 void chat_receive(const lownet_frame_t* frame) {
@@ -50,5 +61,11 @@ void chat_shout(const char* message) {
 }
 
 void chat_tell(const char* message, uint8_t destination) {
-	// ...?
+
+	printf("You: %s\n", args); // sprintf(...); serial_write_line(...)
+
+	lownet_frame_t frame;
+	frame.source = lownet_get_device_id();
+	frame.destination = destination;
+
 }
