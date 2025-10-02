@@ -95,5 +95,7 @@ void ping_receive(const lownet_frame_t* frame) {
 
 		memcpy(&reply.payload, &frame->payload, frame->length);
 		memcpy(&reply.payload, &packet, sizeof packet);
+
+		lownet_send(&reply);
 	}
 }
