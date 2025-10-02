@@ -26,7 +26,12 @@ void chat_init()
 
 void shout_command(char* args)
 {
-	// ...?
+	if (!args)
+	{
+		serial_write_line("Shout command needs arguement\n");
+		return;
+	}
+	chat_shout(args);
 }
 
 void tell_command(char* args)
@@ -34,7 +39,7 @@ void tell_command(char* args)
 	// @0xab Hello!
 	if (!args)
 	{
-		serial_write_line("???\n");
+		serial_write_line("Tell command needs arguement\n");
 		return;
 	}
 
@@ -56,25 +61,33 @@ void tell_command(char* args)
 }
 
 void chat_receive(const lownet_frame_t* frame) {
+
+	char msg[frame->length + 1];
+	memcpy(msg, &frame->payload, frame->length);
+	msg[frame->length] = '\0';
+
+	char buffer[4 + 9 + frame->length + 16 + 4 + 1 + 1];
+	int n = 0;
+	n += format_id(buffer + n, frame->source);
 	if (frame->destination == lownet_get_device_id()) {
 		// This is a tell message, just for us!
-
-		//  ...?
+		n += sprintf(buffer + n, " %s: ", "says");
 	} else {
 		// This is a broadcast shout message.
+		n += sprintf(buffer + n, " %s: ", "shouts");
 
-		// ...?
 	}
+	n += sprintf(buffer + n, "%s", msg);
+	serial_write_line(buffer);
 }
 
 void chat_shout(const char* message) {
-	// ...?
+	chat_tell(message, LOWNET_BROADCAST_ADDRESS);
 }
 
 uint8_t is_valid(const char* message)
 {
 	uint8_t i = 0;
-	int b = 1;
 	while (message[i] != '\0')
 	{
 		if (!util_printable(message[i])) return 0;
@@ -92,7 +105,8 @@ void chat_tell(const char* message, uint8_t destination) {
 	frame.source = lownet_get_device_id();
 	frame.destination = destination;
 	frame.protocol = LOWNET_PROTOCOL_CHAT;
-	frame.length = is_valid(message);
-	// memcpy(&frame.payload, message length);
-
+	frame.length = length;
+	memcpy(&frame.payload, message, length);
+	frame.payload[length] = '\0';
+	lownet_send(&frame);
 }
