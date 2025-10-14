@@ -53,12 +53,12 @@ void ping(uint8_t node, const uint8_t* payload, uint8_t length)
 
 
 	if (payload)
-		{
-			memcpy(frame.payload + frame.length,
-						 payload,
-						 min(LOWNET_PAYLOAD_SIZE - sizeof(ping_packet_t), length));
-			frame.length += min(LOWNET_PAYLOAD_SIZE - sizeof(ping_packet_t), length);
-		}
+	{
+		memcpy(frame.payload + frame.length,
+					 payload,
+					 min(LOWNET_PAYLOAD_SIZE - sizeof(ping_packet_t), length));
+		frame.length += min(LOWNET_PAYLOAD_SIZE - sizeof(ping_packet_t), length);
+	}
 
 	lownet_send(&frame);
 }
